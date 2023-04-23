@@ -9,13 +9,15 @@ const Login = (props) => {
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState();
+  const [clgName, setClgName] = useState('');
+  const [clgNameIsValid, setClgNameIsValid] = useState('');
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
     setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      enteredEmail.includes('@') && enteredPassword.trim().length > 6 && clgName.trim().length > 5
     );
-  }, [enteredEmail, enteredPassword]);
+  }, [enteredEmail, enteredPassword, clgName]);
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
@@ -29,6 +31,10 @@ const Login = (props) => {
     // );
   };
 
+  const clgChangeHandler = (event) => {
+    setClgName(event.target.value);
+  };
+
   const validateEmailHandler = () => {
     setEmailIsValid(enteredEmail.includes('@'));
   };
@@ -37,9 +43,13 @@ const Login = (props) => {
     setPasswordIsValid(enteredPassword.trim().length > 6);
   };
 
+  const validateClgHandler = () => {
+    setClgNameIsValid(clgName.trim().length > 5);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(enteredEmail, enteredPassword, clgName);
   };
 
   return (
@@ -69,6 +79,19 @@ const Login = (props) => {
             value={enteredPassword}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
+          />
+        </div>
+        <div
+          className={`${classes.control} ${clgNameIsValid === false ? classes.invalid : ''
+            }`}
+        >
+          <label htmlFor="college">College Name</label>
+          <input
+            type="text"
+            id="college"
+            value={clgName}
+            onChange={clgChangeHandler}
+            onBlur={validateClgHandler}
           />
         </div>
         <div className={classes.actions}>
